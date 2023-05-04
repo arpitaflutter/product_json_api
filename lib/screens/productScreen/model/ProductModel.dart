@@ -1,7 +1,7 @@
 class ProductModel
 {
   String? title,description,category,image;
-  double? id,price;
+  var id,price;
   ratingModel? r1;
 
   ProductModel({this.id,this.title,this.description,this.image,this.price,this.category,this.r1});
@@ -9,6 +9,7 @@ class ProductModel
   ProductModel ProductFromJson(Map m1)
   {
     id = m1['id'];
+    title = m1['title'];
     category = m1['category'];
     price = m1['price'];
     image = m1['image'];
@@ -22,7 +23,7 @@ class ProductModel
 
 class ratingModel
 {
-  double? rate,count;
+  var rate,count;
 
   ratingModel({this.rate,this.count});
 

@@ -11,41 +11,81 @@ class product_screen extends StatefulWidget {
 }
 
 class _product_screenState extends State<product_screen> {
-
   @override
   void initState() {
-   super.initState();
+    super.initState();
 
-   Provider.of<ProductProvider>(context,listen: false).ProductApiCall();
+    Provider.of<ProductProvider>(context, listen: false).ProductApiCall();
   }
 
-  ProductProvider? pt,pf;
+  ProductProvider? pt, pf;
+
   @override
   Widget build(BuildContext context) {
-
-    pt = Provider.of<ProductProvider>(context,listen: true);
-    pf = Provider.of<ProductProvider>(context,listen: false);
+    pt = Provider.of<ProductProvider>(context, listen: true);
+    pf = Provider.of<ProductProvider>(context, listen: false);
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: Text("Product Json Data"),
+          title: Text("Product Data"),
           backgroundColor: Colors.black,
           centerTitle: true,
         ),
         body: Column(
           children: [
-            ElevatedButton(onPressed: () {
-
-              pt!.ProductApiCall();
-            }, child: Text("Show data")),
-
             Expanded(
-              child: ListView.builder(itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text("${pt!.l1[index].r1!.rate}"),
-                  subtitle: Text("${pt!.l1[index].description}"),
-                );
-              },itemCount: pt!.l1.length,
+              child: ListView.builder(
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      Navigator.pushNamed(context, 'data',arguments: index);
+                    },
+                    child: Container(
+                      height: 150,
+                      margin: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(20),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(color: Colors.black, width: 3)),
+                      child: Row(
+                        children: [
+                          Container(
+                              height: 100,
+                              width: 100,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(15),
+                                  child:
+                                      Image.network("${pt!.l1[index].image}"))),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("Id:- ${pt!.l1[index].id}",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold)),
+                              SizedBox(
+                                height: 15,
+                              ),
+                              Text("Price:- \$ ${pt!.l1[index].price}",
+                                  style: TextStyle(
+                                      fontSize: 20, color: Colors.black,fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+                itemCount: pt!.l1.length,
               ),
             )
           ],
